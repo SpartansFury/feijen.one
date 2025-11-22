@@ -44,10 +44,18 @@
         </div>
 
         <div class="hero-photo-card">
-          <div class="hero-photo-frame">
-            <!-- Make sure this file exists in /assets -->
-            <img src="assets/sam-feijen-portrait.jpg" alt="Portrait of Sam Feijen">
-            <div class="hero-photo-kintsugi"></div>
+          <div class="hero-photo-frame" data-animate-kintsugi>
+            <div class="hero-photo-inner">
+              <!-- Make sure this file exists in /assets -->
+              <img src="assets/sam-feijen-portrait.jpg" alt="Portrait of Sam Feijen">
+              <div class="hero-photo-kintsugi" aria-hidden="true">
+                <span class="shard shard-1"></span>
+                <span class="shard shard-2"></span>
+                <span class="shard shard-3"></span>
+                <span class="shard shard-4"></span>
+                <span class="shard shard-5"></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
