@@ -30,3 +30,29 @@
 
   observed.forEach((el) => observer.observe(el));
 })();
+
+// Metallic / kintsugi scroll response for the hero portrait
+(function () {
+  const frame = document.querySelector("[data-animate-kintsugi]");
+  if (!frame) return;
+
+  const reduceMotion = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduceMotion) {
+    frame.style.setProperty("--scroll-progress", "0.35");
+    return;
+  }
+
+  const updateProgress = () => {
+    const rect = frame.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || 1;
+    const progress = (viewportHeight * 0.75 - rect.top) / (viewportHeight + rect.height);
+    const clamped = Math.max(0, Math.min(1, progress));
+    frame.style.setProperty("--scroll-progress", clamped.toFixed(3));
+  };
+
+  updateProgress();
+  window.addEventListener("scroll", updateProgress, { passive: true });
+  window.addEventListener("resize", updateProgress);
+})();
