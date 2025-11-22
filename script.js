@@ -56,3 +56,54 @@
   window.addEventListener("scroll", updateProgress, { passive: true });
   window.addEventListener("resize", updateProgress);
 })();
+
+// Crack overlays respond to scroll depth and section visibility
+(function () {
+  const sections = Array.from(document.querySelectorAll("section.section"));
+  if (!sections.length) return;
+
+  const reduceMotion = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const assignBaseIntensity = () => {
+    sections.forEach((section, index) => {
+      const base = (index + 1) / sections.length;
+      section.style.setProperty("--crack-intensity", base.toFixed(3));
+    });
+  };
+
+  if (reduceMotion) {
+    assignBaseIntensity();
+    document.body.style.setProperty("--crack-depth", "0.22");
+    return;
+  }
+
+  const updateDepth = () => {
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const ratio = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+    document.body.style.setProperty("--crack-depth", ratio.toFixed(3));
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const index = sections.indexOf(entry.target);
+        if (index === -1) return;
+        const base = (index + 1) / sections.length;
+        const boost = Math.min(0.45, entry.intersectionRatio * 0.7);
+        const value = Math.min(1, base + boost);
+        entry.target.style.setProperty("--crack-intensity", value.toFixed(3));
+      });
+    },
+    {
+      threshold: [0, 0.15, 0.4, 0.65, 0.9, 1],
+    }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+
+  assignBaseIntensity();
+  updateDepth();
+  window.addEventListener("scroll", updateDepth, { passive: true });
+  window.addEventListener("resize", updateDepth);
+})();

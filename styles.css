@@ -34,6 +34,7 @@
   --radius-lg: 18px;
   --radius-pill: 999px;
   --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
+  --crack-depth: 0;
 }
 
 *,
@@ -56,6 +57,68 @@ body {
     var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+  position: relative;
+  isolation: isolate;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: screen;
+}
+
+body::before {
+  background-image:
+    radial-gradient(circle at 18% 26%, rgba(255, 233, 176, 0.12), transparent 32%),
+    radial-gradient(circle at 76% 14%, rgba(244, 199, 107, 0.14), transparent 38%),
+    radial-gradient(circle at 42% 68%, rgba(255, 243, 217, 0.12), transparent 48%),
+    repeating-linear-gradient(
+      118deg,
+      rgba(255, 243, 217, 0.42) 0,
+      rgba(255, 243, 217, 0.42) 2px,
+      transparent 2px,
+      transparent 16px
+    ),
+    repeating-linear-gradient(
+      238deg,
+      rgba(242, 196, 106, 0.52) 0,
+      rgba(242, 196, 106, 0.52) 1px,
+      transparent 1px,
+      transparent 22px
+    );
+  background-size: 120% 120%, 120% 120%, 120% 120%, 420px 420px, 320px 320px;
+  background-position: 22% 18%, 64% 20%, 46% 68%, 0 0, 18% 12%;
+  opacity: calc(0.12 + var(--crack-depth, 0) * 0.45);
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.55)) saturate(calc(1 + var(--crack-depth, 0) * 0.8));
+  transition: opacity 0.6s ease, filter 0.6s ease;
+}
+
+body::after {
+  background-image:
+    repeating-linear-gradient(
+      72deg,
+      rgba(255, 233, 176, 0.4) 0,
+      rgba(255, 233, 176, 0.4) 1px,
+      transparent 1px,
+      transparent 18px
+    ),
+    repeating-linear-gradient(
+      156deg,
+      rgba(244, 199, 107, 0.42) 0,
+      rgba(244, 199, 107, 0.42) 2px,
+      transparent 2px,
+      transparent 26px
+    ),
+    radial-gradient(circle at 82% 88%, rgba(255, 255, 255, 0.15), transparent 64%);
+  background-size: 260px 260px, 320px 320px, 100% 100%;
+  background-position: 4% 10%, 80% 14%, 50% 50%;
+  opacity: calc(0.06 + var(--crack-depth, 0) * 0.32);
+  filter: blur(0.3px);
+  transition: opacity 0.6s ease;
 }
 
 img {
@@ -381,6 +444,7 @@ img {
 .section {
   padding: 3.8rem 0;
   position: relative;
+  --crack-intensity: 0.08;
 }
 
 .section::before {
@@ -397,6 +461,38 @@ img {
 
 .section.active::before {
   opacity: 0.75;
+}
+
+.section::after {
+  content: "";
+  position: absolute;
+  inset: 10% 6% 8%;
+  background-image:
+    repeating-linear-gradient(
+      98deg,
+      rgba(255, 243, 217, 0.35) 0,
+      rgba(255, 243, 217, 0.35) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      212deg,
+      rgba(244, 199, 107, 0.32) 0,
+      rgba(244, 199, 107, 0.32) 1px,
+      transparent 1px,
+      transparent 26px
+    );
+  background-size: 260px 260px, 300px 300px;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: calc(0.05 + var(--crack-intensity, 0.1) * 0.6);
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.45));
+  transition: opacity 0.45s ease, filter 0.45s ease, transform 0.45s ease;
+}
+
+.section.active::after {
+  opacity: calc(0.1 + var(--crack-intensity, 0.12) * 0.9);
+  transform: translate3d(0, -3px, 0);
 }
 
 .section-inner {
