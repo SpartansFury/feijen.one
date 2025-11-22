@@ -12,7 +12,24 @@
   --gold-dark: #b5872b;
   --gold: #f4c76b;
   --gold-light: #ffe9b0;
-  --gold-gradient: linear-gradient(135deg, var(--gold-dark), var(--gold-light), var(--gold));
+  --gold-shadow: #8a6420;
+  --gold-mid: #d9ad44;
+  --gold-bright: #ffe6a7;
+  --gold-highlight: #fff5d9;
+  --gold-gleam: #fffdf3;
+  --gold-gradient: linear-gradient(
+    135deg,
+    var(--gold-shadow) 0%,
+    var(--gold-dark) 12%,
+    var(--gold) 28%,
+    var(--gold-bright) 46%,
+    var(--gold) 62%,
+    var(--gold-highlight) 78%,
+    var(--gold-shadow) 100%
+  );
+  --gold-radial: radial-gradient(circle at 20% 25%, rgba(255, 245, 217, 0.32), transparent 45%);
+  --gold-bevel: linear-gradient(145deg, rgba(0, 0, 0, 0.24) 0%, rgba(255, 255, 255, 0.1) 48%, rgba(0, 0, 0, 0.16) 100%);
+  --gold-shimmer: linear-gradient(120deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.06) 22%, rgba(255, 255, 255, 0) 45%, rgba(255, 255, 255, 0.35) 60%, rgba(255, 255, 255, 0) 82%);
 
   --border-soft: rgba(255, 255, 255, 0.06);
   --radius-lg: 18px;
@@ -83,10 +100,28 @@ img {
   font-weight: 700;
   letter-spacing: 0.08em;
   font-size: 0.88rem;
-  background-image: var(--gold-gradient);
-  background-size: 220% 220%;
+  background-image:
+    var(--gold-shimmer),
+    var(--gold-gradient),
+    var(--gold-radial);
+  background-size: 220% 220%, 200% 200%, 140% 140%;
+  background-position: 10% 20%, 40% 60%, 70% 40%;
   color: #131217;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 12px 26px rgba(0, 0, 0, 0.55);
+}
+
+.logo:hover,
+.logo:focus-visible {
+  background-position: 35% 35%, 55% 45%, 60% 35%;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.38),
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 14px 30px rgba(0, 0, 0, 0.62);
 }
 
 .nav {
@@ -263,6 +298,20 @@ img {
   pointer-events: none;
   position: absolute;
   inset: 0;
+  inset: -15%;
+  background:
+    linear-gradient(
+      135deg,
+      transparent 0,
+      transparent 44%,
+      rgba(255, 245, 217, 0.95) 49%,
+      rgba(244, 199, 107, 0.85) 53%,
+      transparent 58%,
+      transparent 100%
+    ),
+    linear-gradient(125deg, rgba(255, 255, 255, 0.22), transparent 48%, rgba(0, 0, 0, 0.35)),
+    var(--gold-radial),
+    radial-gradient(circle at 80% 90%, rgba(244, 199, 107, 0.3), transparent 70%);
   mix-blend-mode: screen;
   filter: drop-shadow(0 6px 12px rgba(244, 199, 107, 0.3));
 }
@@ -442,15 +491,16 @@ img {
   left: -40%;
   width: 160%;
   height: 260%;
-  background-image: var(--gold-gradient);
-  background-size: 220% 220%;
+  background-image: var(--gold-shimmer), var(--gold-gradient);
+  background-size: 280% 280%, 240% 240%;
   opacity: 0;
   mix-blend-mode: soft-light;
   transition: opacity 0.25s ease-out, transform 0.45s ease-out;
   transform: translateX(-20%);
 }
 
-.pill:hover::before {
+.pill:hover::before,
+.pill:focus-visible::before {
   opacity: 1;
   transform: translateX(20%);
 }
@@ -498,17 +548,18 @@ img {
 }
 
 .btn-primary {
-  background-image: var(--gold-gradient);
-  background-size: 220% 220%;
+  background-image: var(--gold-shimmer), var(--gold-gradient), var(--gold-radial);
+  background-size: 220% 220%, 220% 220%, 180% 180%;
+  background-position: 35% 40%, 60% 60%, 20% 30%;
   color: #141319;
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .btn-primary:hover,
 .btn-primary:focus-visible {
   transform: translateY(-1px);
-  background-position: 100% 0;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85);
+  background-position: 90% 10%, 80% 20%, 35% 35%;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
 .btn-secondary {
