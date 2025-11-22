@@ -2,14 +2,14 @@
 // Simple reveal-on-scroll with prefers-reduced-motion support
 
 (function () {
-  const sections = document.querySelectorAll(".reveal");
-  if (!sections.length) return;
+  const observed = document.querySelectorAll(".reveal, .card");
+  if (!observed.length) return;
 
   const reduceMotion = window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (reduceMotion || !("IntersectionObserver" in window)) {
-    sections.forEach((el) => el.classList.add("is-visible"));
+    observed.forEach((el) => el.classList.add("is-visible", "active"));
     return;
   }
 
@@ -17,8 +17,9 @@
     (entries, obs) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          obs.unobserve(entry.target);
+          entry.target.classList.add("is-visible", "active");
+        } else {
+          entry.target.classList.remove("active");
         }
       });
     },
@@ -27,5 +28,5 @@
     }
   );
 
-  sections.forEach((el) => observer.observe(el));
+  observed.forEach((el) => observer.observe(el));
 })();
