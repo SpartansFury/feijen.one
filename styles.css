@@ -511,19 +511,35 @@ ul { list-style: none; }
 .about-body p:last-child { margin-bottom: 0; }
 
 /* About photo */
+.about-photo-wrap {
+  position: relative;
+  display: inline-block;
+  margin-top: var(--space-md);
+  padding: 6px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(242, 196, 106, 0.12), rgba(242, 196, 106, 0.04));
+}
+
+.about-photo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(242, 196, 106, 0.06), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
 .about-photo {
+  display: block;
   width: 240px;
   height: 240px;
   object-fit: cover;
   border-radius: var(--radius-md);
-  border: 2px solid rgba(242, 196, 106, 0.25);
+  border: 1px solid rgba(242, 196, 106, 0.2);
   box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(242, 196, 106, 0.08);
-  margin-top: var(--space-md);
-  transition:
-    border-color 0.4s var(--ease-smooth),
-    box-shadow 0.4s var(--ease-smooth);
+    0 4px 20px rgba(0, 0, 0, 0.5),
+    0 0 24px rgba(242, 196, 106, 0.06);
 }
 
 /* ========== APPROACH ========== */
@@ -778,10 +794,13 @@ ul { list-style: none; }
     grid-template-columns: 1fr;
   }
 
+  .about-photo-wrap {
+    margin: var(--space-md) auto 0;
+  }
+
   .about-photo {
     width: 180px;
     height: 180px;
-    margin: var(--space-md) auto 0;
   }
 
   .approach-grid {
