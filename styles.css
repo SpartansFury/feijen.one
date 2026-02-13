@@ -224,6 +224,8 @@ ul { list-style: none; }
   fill: none;
 }
 
+.icon-close { display: none; }
+
 /* ========== HERO ========== */
 .hero {
   min-height: 100vh;
@@ -817,80 +819,42 @@ ul { list-style: none; }
 @media (max-width: 640px) {
   .container { padding: 0 1.2rem; }
 
-  /* Mobile nav — slide-in panel */
-  .nav-toggle { display: block; z-index: 400; }
-
-  .nav-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 350;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s var(--ease-smooth), visibility 0.3s;
+  /* Mobile nav — push-down dropdown */
+  .header-inner {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 64px;
   }
 
-  .nav-backdrop.is-open {
-    opacity: 1;
-    visibility: visible;
-  }
+  .nav-toggle { display: block; }
+
+  /* Icon swap: hamburger ↔ X */
+  .nav-toggle[aria-expanded="true"] .icon-hamburger { display: none; }
+  .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
 
   .nav {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 280px;
-    max-width: 80vw;
-    height: 100%;
-    background: var(--bg-elevated);
+    display: none;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
     gap: 0;
-    padding: 5rem 2rem 2rem;
-    z-index: 360;
-    transform: translateX(100%);
-    transition: transform 0.3s var(--ease-out);
-    border-left: 1px solid var(--border-soft);
+    order: 3;
+    flex-basis: 100%;
+    width: 100%;
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border-soft);
+    padding: 0.5rem 1.8rem;
   }
 
-  .nav.is-open {
-    transform: translateX(0);
-  }
+  .nav.is-open { display: flex; }
 
   .nav a {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--text);
-    padding: 0.75rem 0;
+    padding: 0.875rem 0;
     width: 100%;
     border-bottom: 1px solid var(--border-soft);
   }
 
   .nav a:last-child { border-bottom: none; }
-
-  .nav-close {
-    position: absolute;
-    top: 1.2rem;
-    right: 1.2rem;
-    background: none;
-    border: none;
-    color: var(--text-dim);
-    cursor: pointer;
-    padding: 0.5rem;
-    font-size: 0;
-    line-height: 1;
-    transition: color 0.2s;
-  }
-
-  .nav-close:hover { color: var(--gold); }
-
-  .nav-close svg {
-    width: 20px;
-    height: 20px;
-    stroke: currentColor;
-    stroke-width: 2;
-    fill: none;
-  }
 
   /* Hero */
   .hero { min-height: 90vh; min-height: 90dvh; }
@@ -922,8 +886,6 @@ ul { list-style: none; }
   /* Reduce grain on mobile for perf */
   .grain { opacity: 0.015; }
 
-  /* Lock body scroll when menu open */
-  body.menu-open { overflow: hidden; }
 }
 
 /* ========== REDUCED MOTION ========== */

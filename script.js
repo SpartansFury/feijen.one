@@ -66,43 +66,20 @@
   (function initMobileNav() {
     var toggle = document.querySelector('.nav-toggle');
     var nav = document.querySelector('.nav');
-    var backdrop = document.getElementById('nav-backdrop');
-    var closeBtn = document.querySelector('.nav-close');
     if (!toggle || !nav) return;
-
-    function openMenu() {
-      nav.classList.add('is-open');
-      if (backdrop) backdrop.classList.add('is-open');
-      toggle.setAttribute('aria-expanded', 'true');
-      toggle.setAttribute('aria-label', 'Close menu');
-      document.body.classList.add('menu-open');
-    }
 
     function closeMenu() {
       nav.classList.remove('is-open');
-      if (backdrop) backdrop.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', 'false');
       toggle.setAttribute('aria-label', 'Open menu');
-      document.body.classList.remove('menu-open');
     }
 
-    // Toggle button
     toggle.addEventListener('click', function () {
-      if (nav.classList.contains('is-open')) { closeMenu(); } else { openMenu(); }
+      var isOpen = nav.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
     });
 
-    // Close button (X)
-    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
-
-    // Backdrop click
-    if (backdrop) backdrop.addEventListener('click', closeMenu);
-
-    // ESC key
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && nav.classList.contains('is-open')) closeMenu();
-    });
-
-    // Close on link click
     nav.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', closeMenu);
     });
