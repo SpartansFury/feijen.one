@@ -62,25 +62,49 @@
     }, { passive: true });
   })();
 
-  /* ========== MOBILE NAV TOGGLE ========== */
+  /* ========== MOBILE NAV ========== */
   (function initMobileNav() {
     var toggle = document.querySelector('.nav-toggle');
     var nav = document.querySelector('.nav');
+    var backdrop = document.getElementById('nav-backdrop');
+    var closeBtn = document.querySelector('.nav-close');
     if (!toggle || !nav) return;
 
+    function openMenu() {
+      nav.classList.add('is-open');
+      if (backdrop) backdrop.classList.add('is-open');
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Close menu');
+      document.body.classList.add('menu-open');
+    }
+
+    function closeMenu() {
+      nav.classList.remove('is-open');
+      if (backdrop) backdrop.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+      document.body.classList.remove('menu-open');
+    }
+
+    // Toggle button
     toggle.addEventListener('click', function () {
-      var open = nav.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', open);
-      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      if (nav.classList.contains('is-open')) { closeMenu(); } else { openMenu(); }
     });
 
-    // Close nav when a link is clicked
+    // Close button (X)
+    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+
+    // Backdrop click
+    if (backdrop) backdrop.addEventListener('click', closeMenu);
+
+    // ESC key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) closeMenu();
+    });
+
+    // Close on link click
     nav.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        nav.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.setAttribute('aria-label', 'Open menu');
-      });
+      link.addEventListener('click', closeMenu);
     });
   })();
 
